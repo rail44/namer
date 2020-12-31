@@ -1,0 +1,12 @@
+{
+  "name": "@namer/solidity",
+  "version": "0.1.0",
+  "author": "Satoshi Amemiya <amemiya@protonmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@openzeppelin/contracts": "^3.3.0"
+  },
+  "devDependencies": {
+    "truffle": "^5.1.59"
+  }
+}
