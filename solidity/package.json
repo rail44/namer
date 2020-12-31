@@ -7,6 +7,6 @@
     "@openzeppelin/contracts": "^3.3.0"
   },
   "devDependencies": {
-    "truffle": "^5.1.59"
+    "hardhat": "^2.0.6"
   }
 }
