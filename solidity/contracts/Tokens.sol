@@ -7,7 +7,7 @@ import "./Rights.sol";
 
 contract Tokens is ERC721 {
   struct LendingInfo {
-    address rightAddress;
+    uint256 right;
     uint256 until;
   }
 
@@ -25,12 +25,14 @@ contract Tokens is ERC721 {
 
     require(token.lending.until < now);
     uint256 until = now + duration;
-    token.lending = LendingInfo(msg.sender, until);
+    Rights Rights = new Rights();
+    uint256 right = Rights.publish(msg.sender);
+    token.lending = LendingInfo(right, until);
   }
 
   function publish(string calldata uri, string calldata defaultName) public returns (uint256) {
+    _tokens.push(Token(defaultName, LendingInfo(0, 0)));
     uint256 newItemId = _tokens.length;
-    _tokens.push(Token(defaultName, LendingInfo(address(0), 0)));
 
     _mint(msg.sender, newItemId);
     _setTokenURI(newItemId, uri);

@@ -13,11 +13,11 @@ contract Rights is ERC721 {
   constructor() ERC721("Namer", "NAMER") {}
 
   function publish(address author) public returns (uint256) {
-    require(msg.sender == address(Tokens));
+    require(msg.sender == address(new Tokens()));
+    _tokenIds.increment();
     uint256 newItemId = _tokenIds.current();
 
     _mint(author, newItemId);
-    _tokenIds.increment();
 
     return newItemId;
   }
