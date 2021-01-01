@@ -17,7 +17,7 @@ contract Origins is ERC721 {
         _rights = new Rights();
     }
 
-    function publishRight(uint256 tokenId, uint64 duration) public returns (uint256) {
+    function publishRights(uint256 tokenId, uint64 duration) public returns (uint256) {
         require(_tokens.length >= tokenId, "Token not found");
         return _rights.publish(tokenId, duration);
     }
