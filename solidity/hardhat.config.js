@@ -1,6 +1,7 @@
 require("@nomiclabs/hardhat-ethers");
 require("@nomiclabs/hardhat-etherscan");
 require("@nomiclabs/hardhat-solhint");
+require("hardhat-typechain");
 
 require("dotenv").config();
 
