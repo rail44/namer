@@ -6,18 +6,20 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "./Rights.sol";
 
 contract Origins is ERC721 {
+  Rights private _rights;
   struct Token {
     string defaultName;
     string url;
   }
   Token[] private _tokens;
 
-  constructor() ERC721("Namer Origin", "NMO") {}
+  constructor() ERC721("Namer Origin", "NMO") {
+    _rights = new Rights();
+  }
 
-  function lent(uint256 tokenId, uint64 duration) public {
+  function publishRight(uint256 tokenId, uint64 duration) public returns (uint256) {
     require(_tokens.length >= tokenId, "Token not found");
-    Rights Rights = new Rights();
-    Rights.publish(msg.sender, tokenId, duration);
+    return _rights.publish(tokenId, duration);
   }
 
   function publish(string calldata url, string calldata defaultName) public returns (uint256) {

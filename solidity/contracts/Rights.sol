@@ -2,37 +2,39 @@
 pragma solidity ^0.7.0;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "@openzeppelin/contracts/utils/Counters.sol";
 
 contract Rights is ERC721 {
-  using Counters for Counters.Counter;
-  Counters.Counter private _tokenIds;
-  address private _origin;
+  address private _originAddress;
+  mapping(uint256 => uint256) private _expireMap;
 
   struct Token {
-    uint256 id;
     string currentName;
-    uint256 expire;
   }
-  mapping(uint256 => Token) private _tokenMap;
+  Token[] private _tokens;
 
   constructor() ERC721("Namer Rights", "NMR") {
-    _origin = msg.sender;
+    _originAddress = msg.sender;
   }
 
-  function publish(address author, uint256 origin, uint256 duration) public returns (uint256) {
-    require(msg.sender == _origin, "Sender is not Origin");
+  function setName(uint256 tokenId, string calldata name) public {
+    address owner = ownerOf(tokenId);
+    require(msg.sender == owner, "Not owner of token");
 
-    uint256 now = block.timestamp;
-    Token memory existing = _tokenMap[origin];
-    require(existing.expire < now, "Other Rights is still live");
+    _tokens[tokenId].currentName = name;
+  }
 
-    _tokenIds.increment();
-    uint256 newItemId = _tokenIds.current();
+  function publish(uint256 originId, uint256 duration) public returns (uint256) {
+    require(msg.sender == _originAddress, "Sender is not Origin");
 
-    _tokenMap[origin] = Token(newItemId, "", now + duration);
+    uint256 currentTime = block.timestamp;
+    require(_expireMap[originId] < currentTime, "Other Rights are still alive");
+
+    _expireMap[originId] = currentTime + duration;
+    _tokens.push(Token(""));
+    uint256 newItemId = _tokens.length;
 
     _mint(msg.sender, newItemId);
+
     return newItemId;
   }
 }

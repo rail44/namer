@@ -23,8 +23,8 @@ deployOrigins()
     process.exit(1);
   });
 
-deployRights()
-  .catch(error => {
-    console.error(error);
-    process.exit(1);
-  });
+// deployRights()
+//   .catch(error => {
+//     console.error(error);
+//     process.exit(1);
+//   });
