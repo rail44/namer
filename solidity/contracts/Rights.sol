@@ -4,11 +4,10 @@ pragma solidity ^0.7.0;
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
-import "./Tokens.sol";
-
 contract Rights is ERC721 {
   using Counters for Counters.Counter;
   Counters.Counter private _tokenIds;
+  address private _origin;
 
   struct Token {
     uint256 id;
@@ -17,14 +16,16 @@ contract Rights is ERC721 {
   }
   mapping(uint256 => Token) private _tokenMap;
 
-  constructor() ERC721("Namer", "NAMER") {}
+  constructor() ERC721("Namer Rights", "NMR") {
+    _origin = msg.sender;
+  }
 
   function publish(address author, uint256 origin, uint256 duration) public returns (uint256) {
-    // require(msg.sender == address(new Tokens()));
+    require(msg.sender == _origin, "Sender is not Origin");
 
     uint256 now = block.timestamp;
     Token memory existing = _tokenMap[origin];
-    require(existing.expire > now);
+    require(existing.expire < now, "Other Rights is still live");
 
     _tokenIds.increment();
     uint256 newItemId = _tokenIds.current();

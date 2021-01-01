@@ -1,12 +1,12 @@
 const hre = require("hardhat");
 const ethers = hre.ethers;
 
-async function deployTokens() {
-  const Tokens = await ethers.getContractFactory("Tokens");
-  const trx = await Tokens.deploy();
+async function deployOrigins() {
+  const Origins = await ethers.getContractFactory("Origins");
+  const trx = await Origins.deploy();
   await trx.deployed();
 
-  console.log("Tokens deployed to:", trx.address);
+  console.log("Origins deployed to:", trx.address);
 }
 
 async function deployRights() {
@@ -17,15 +17,13 @@ async function deployRights() {
   console.log("Rights deployed to:", trx.address);
 }
 
-deployTokens()
-  .then(() => process.exit(0))
+deployOrigins()
   .catch(error => {
     console.error(error);
     process.exit(1);
   });
 
 deployRights()
-  .then(() => process.exit(0))
   .catch(error => {
     console.error(error);
     process.exit(1);
